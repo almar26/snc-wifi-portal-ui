@@ -39,7 +39,7 @@ onMounted(() => {
       </form>
       <div class="footer">
         By connecting, you agree to our <a href="#">terms of use</a>.
-        <div class="ver-number">Captive Portal v2.0.1</div>
+        <div class="ver-number">Captive Portal v2.0.6</div>
       </div>
     </div>
   </div>
@@ -50,6 +50,16 @@ onMounted(() => {
   The `scoped` attribute means these styles only apply to this component.
   For global styles, you would put them in `assets/css/main.css` or similar.
 */
+
+.body-wrapper {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom right, #72df81ff, #03910aff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Use min-height to ensure it covers full height */
+}
 
 .container {
   background: #ffffff;
