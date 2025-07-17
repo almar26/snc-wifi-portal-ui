@@ -11,37 +11,60 @@ const route = useRoute();
 
 
 // Functions
-async function connect() {
-  const sip = route.query.sip;
-  loading.value = true;
-   
-  if (sip) {
-    submitUrl.value = `http://${sip}:9997/login`;
-    loading.value = false
-  } else {
-    // Fallback URL if 'sip' parameter is not provided
-    console.warn('SIP parameter not found in URL. Using a placeholder URL.');
-    submitUrl.value = 'http://localhost:9997/login'; // Example fallback
-  }
-}
-
-// On component mount, get the 'sip' query parameter from the URL
-onMounted(() => {
-  
-//  const route = useRoute();
+// async function connect() {
 //   const sip = route.query.sip;
+//   loading.value = true;
+   
 //   if (sip) {
 //     submitUrl.value = `http://${sip}:9997/login`;
+//     loading.value = false
 //   } else {
-//     // Fallback or handle cases where 'sip' is not provided
-//     // For example, you might want to default to a known IP or display an error.
+//     // Fallback URL if 'sip' parameter is not provided
 //     console.warn('SIP parameter not found in URL. Using a placeholder URL.');
 //     submitUrl.value = 'http://localhost:9997/login'; // Example fallback
 //   }
+// }
 
-
-
+// On component mount, get the 'sip' query parameter from the URL
+onMounted(() => {
+ const route = useRoute();
+  const sip = route.query.sip;
+  if (sip) {
+    submitUrl.value = `http://${sip}:9997/login`;
+  } else {
+    // Fallback or handle cases where 'sip' is not provided
+    // For example, you might want to default to a known IP or display an error.
+    console.warn('SIP parameter not found in URL. Using a placeholder URL.');
+    submitUrl.value = 'http://localhost:9997/login'; // Example fallback
+  }
 });
+
+// Function to handle form submission via JavaScript
+const handleConnect = async () => {
+  loading.value = true
+  try {
+    const response = await fetch(submitUrl.value, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        username: username.value,
+        password: password.value
+      }).toString(),
+    });
+
+    if (response.ok) {
+      console.log(response);
+    } else {
+      const errorData = await response.text();
+    }
+  } catch (err) {
+    console.error('Connection error:', err);
+  } finally {
+    loading.value = false;
+  }
+}
 </script>
 
 <template>
@@ -63,7 +86,8 @@ onMounted(() => {
 
 
       <!-- Form for submission -->
-      <v-form :action="submitUrl" method="POST">
+      <!-- <v-form :action="submitUrl" method="POST"> -->
+        <v-form @submit.prevent="handleConnect">
         <!-- Hidden text fields for username and password -->
         <!-- While hidden, using v-text-field ensures consistency if they were to become visible -->
         <v-text-field v-model="username" name="username" type="text" label="Student ID or Username" hide-details
@@ -73,7 +97,7 @@ onMounted(() => {
           style="display: none;"></v-text-field>
 
         <!-- Connect button -->
-        <!-- <v-btn
+        <v-btn
             type="submit"
             :loading="loading"
             :disabled="loading"
@@ -83,11 +107,11 @@ onMounted(() => {
             class="text-white text-capitalize"
           >
             Connect
-          </v-btn> -->
-        <v-btn @click="connect()" :loading="loading" :disabled="loading" block size="large" color="#03910aff"
+          </v-btn>
+        <!-- <v-btn @click="connect()" :loading="loading" :disabled="loading" block size="large" color="#03910aff"
           class="text-white text-capitalize">
           Connect
-        </v-btn>
+        </v-btn> -->
       </v-form>
 
       <!-- Footer section -->
