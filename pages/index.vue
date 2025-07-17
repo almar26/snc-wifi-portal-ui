@@ -5,7 +5,6 @@ import { useRoute } from 'vue-router';
 const submitUrl = ref('');
 const username = ref('test'); // Pre-filled username
 const password = ref('admin123'); // Pre-filled password
-const loading = ref(false);
 
 // On component mount, get the 'sip' query parameter from the URL
 onMounted(() => {
@@ -21,37 +20,7 @@ onMounted(() => {
   }
 });
 
-const handleConnect = async () => {
-  if (!submitUrl.value) {
-    console.log("Connecting...")
-  }
 
-  loading.value = true;
-  try {
-    const response = await fetch(submitUrl.value, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        username: username.value,
-        password: password.value
-      }).toString()
-    });
-
-    if (response.ok) {
-      console.log("Connected:", response);
-    } else {
-      const errorData = await response.text();
-      console.log('Connection failed', errorData);
-    }
-  } catch (err) {
-    console.error('Connection error:', err);
-  } finally {
-    loading.value = false;
-  }
-
-}
 
 </script>
 
@@ -69,13 +38,13 @@ const handleConnect = async () => {
 
       <!-- Card title for the welcome message -->
       <v-card-title class="text-h5 text-center mb-4 font-weight-bold">
-        Welcome SNC Free Wi-Fi
+        Welcome Nicolites <br> Free Wi-Fi
       </v-card-title>
 
 
       <!-- Form for submission -->
-      <!-- <v-form :action="submitUrl" method="POST"> -->
-        <v-form @submit.prevent="handleConnect">
+      <v-form :action="submitUrl" method="POST">
+        <!-- <v-form @submit.prevent="handleConnect"> -->
         <!-- Hidden text fields for username and password -->
         <!-- While hidden, using v-text-field ensures consistency if they were to become visible -->
         <v-text-field v-model="username" name="username" type="text" label="Student ID or Username" hide-details
@@ -86,13 +55,11 @@ const handleConnect = async () => {
 
         <!-- Connect button -->
         <v-btn
-            @click="handleConnect"
+            type="submit"
             block
             size="large"
             color="#03910aff"
             class="text-white text-capitalize"
-            :loading="loading"
-            :disabled="loading"
           >
             Connect
           </v-btn>
@@ -105,7 +72,7 @@ const handleConnect = async () => {
       <!-- Footer section -->
       <v-card-text class="footer text-center mt-4">
         By connecting, you agree to our <a href="#" class="text-decoration-none text-blue">terms of use</a>.
-        <div class="ver-number">Captive Portal v2.0.8</div>
+        <div class="ver-number">Captive Portal v2.0.9</div>
       </v-card-text>
     </v-card>
   </v-container>
