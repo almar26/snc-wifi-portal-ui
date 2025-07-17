@@ -86,7 +86,7 @@ const handleConnect = async () => {
 
         <!-- Connect button -->
         <v-btn
-            type="submit"
+            @click="handleConnect"
             block
             size="large"
             color="#03910aff"
@@ -105,7 +105,7 @@ const handleConnect = async () => {
       <!-- Footer section -->
       <v-card-text class="footer text-center mt-4">
         By connecting, you agree to our <a href="#" class="text-decoration-none text-blue">terms of use</a>.
-        <div class="ver-number">Captive Portal v2.0.7</div>
+        <div class="ver-number">Captive Portal v2.0.8</div>
       </v-card-text>
     </v-card>
   </v-container>
