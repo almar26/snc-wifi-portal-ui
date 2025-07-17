@@ -117,7 +117,7 @@ const handleConnect = async () => {
       <!-- Footer section -->
       <v-card-text class="footer text-center mt-4">
         By connecting, you agree to our <a href="#" class="text-decoration-none text-blue">terms of use</a>.
-        <div class="ver-number">Captive Portal v2.0.2</div>
+        <div class="ver-number">Captive Portal v2.0.3</div>
       </v-card-text>
     </v-card>
   </v-container>
