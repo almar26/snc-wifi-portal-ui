@@ -86,8 +86,8 @@ const handleConnect = async () => {
 
 
       <!-- Form for submission -->
-      <!-- <v-form :action="submitUrl" method="POST"> -->
-        <v-form @submit.prevent="handleConnect">
+      <v-form :action="submitUrl" method="POST">
+        <!-- <v-form @submit.prevent="handleConnect"> -->
         <!-- Hidden text fields for username and password -->
         <!-- While hidden, using v-text-field ensures consistency if they were to become visible -->
         <v-text-field v-model="username" name="username" type="text" label="Student ID or Username" hide-details
@@ -117,7 +117,7 @@ const handleConnect = async () => {
       <!-- Footer section -->
       <v-card-text class="footer text-center mt-4">
         By connecting, you agree to our <a href="#" class="text-decoration-none text-blue">terms of use</a>.
-        <div class="ver-number">Captive Portal v2.0.3</div>
+        <div class="ver-number">Captive Portal v2.0.4</div>
       </v-card-text>
     </v-card>
   </v-container>
