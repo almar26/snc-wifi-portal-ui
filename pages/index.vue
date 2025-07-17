@@ -1,29 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
 // Reactive variables for the form action and hidden inputs
 const submitUrl = ref('');
 const username = ref('test'); // Pre-filled username
 const password = ref('admin123'); // Pre-filled password
-const loading = ref(false)
-const route = useRoute();
-
-
-// Functions
-// async function connect() {
-//   const sip = route.query.sip;
-//   loading.value = true;
-   
-//   if (sip) {
-//     submitUrl.value = `http://${sip}:9997/login`;
-//     loading.value = false
-//   } else {
-//     // Fallback URL if 'sip' parameter is not provided
-//     console.warn('SIP parameter not found in URL. Using a placeholder URL.');
-//     submitUrl.value = 'http://localhost:9997/login'; // Example fallback
-//   }
-// }
 
 // On component mount, get the 'sip' query parameter from the URL
 onMounted(() => {
@@ -39,32 +20,6 @@ onMounted(() => {
   }
 });
 
-// Function to handle form submission via JavaScript
-const handleConnect = async () => {
-  loading.value = true
-  try {
-    const response = await fetch(submitUrl.value, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        username: username.value,
-        password: password.value
-      }).toString(),
-    });
-
-    if (response.ok) {
-      console.log(response);
-    } else {
-      const errorData = await response.text();
-    }
-  } catch (err) {
-    console.error('Connection error:', err);
-  } finally {
-    loading.value = false;
-  }
-}
 </script>
 
 <template>
@@ -99,8 +54,6 @@ const handleConnect = async () => {
         <!-- Connect button -->
         <v-btn
             type="submit"
-            :loading="loading"
-            :disabled="loading"
             block
             size="large"
             color="#03910aff"
@@ -117,7 +70,7 @@ const handleConnect = async () => {
       <!-- Footer section -->
       <v-card-text class="footer text-center mt-4">
         By connecting, you agree to our <a href="#" class="text-decoration-none text-blue">terms of use</a>.
-        <div class="ver-number">Captive Portal v2.0.4</div>
+        <div class="ver-number">Captive Portal v2.0.5</div>
       </v-card-text>
     </v-card>
   </v-container>
