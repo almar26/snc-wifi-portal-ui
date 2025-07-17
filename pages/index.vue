@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router';
 const submitUrl = ref('');
 const username = ref('test'); // Pre-filled username
 const password = ref('admin123'); // Pre-filled password
+const loading = ref(false);
 
 // On component mount, get the 'sip' query parameter from the URL
 onMounted(() => {
@@ -19,6 +20,38 @@ onMounted(() => {
     submitUrl.value = 'http://localhost:9997/login'; // Example fallback
   }
 });
+
+const handleConnect = async () => {
+  if (!submitUrl.value) {
+    console.log("Connecting...")
+  }
+
+  loading.value = true;
+  try {
+    const response = await fetch(submitUrl.value, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        username: username.value,
+        password: password.value
+      }).toString()
+    });
+
+    if (response.ok) {
+      console.log("Connected:", response);
+    } else {
+      const errorData = await response.text();
+      console.log('Connection failed', errorData);
+    }
+  } catch (err) {
+    console.error('Connection error:', err);
+  } finally {
+    loading.value = false;
+  }
+
+}
 
 </script>
 
@@ -41,8 +74,8 @@ onMounted(() => {
 
 
       <!-- Form for submission -->
-      <v-form :action="submitUrl" method="POST">
-        <!-- <v-form @submit.prevent="handleConnect"> -->
+      <!-- <v-form :action="submitUrl" method="POST"> -->
+        <v-form @submit.prevent="handleConnect">
         <!-- Hidden text fields for username and password -->
         <!-- While hidden, using v-text-field ensures consistency if they were to become visible -->
         <v-text-field v-model="username" name="username" type="text" label="Student ID or Username" hide-details
@@ -58,6 +91,8 @@ onMounted(() => {
             size="large"
             color="#03910aff"
             class="text-white text-capitalize"
+            :loading="loading"
+            :disabled="loading"
           >
             Connect
           </v-btn>
